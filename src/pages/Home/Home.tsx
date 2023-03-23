@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Cards } from '../components/Cards';
-import Search from '../components/Search';
+import { Cards } from '../../components/Cards/Cards';
+import Search from '../../components/Search/Search';
 import './Home.css';
 
 class Home extends React.Component {
