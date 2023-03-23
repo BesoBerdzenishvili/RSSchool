@@ -4,7 +4,7 @@ import './Header.css';
 
 class Header extends React.Component {
   state = {
-    currentPage: '/',
+    currentPage: window.location.pathname,
   };
 
   handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
