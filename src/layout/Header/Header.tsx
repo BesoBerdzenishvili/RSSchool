@@ -38,6 +38,15 @@ class Header extends React.Component {
                 About
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/add"
+                onClick={this.handleNavLinkClick}
+                className={({ isActive }) => (isActive ? 'active' : '')}
+              >
+                Add
+              </NavLink>
+            </li>
           </ul>
         </nav>
 
