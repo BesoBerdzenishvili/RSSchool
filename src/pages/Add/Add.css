@@ -1,0 +1,30 @@
+.add-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 1px solid darkgrey;
+  padding: 16px;
+  min-width: 204px;
+}
+
+.error {
+  color: red;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.add-form label {
+  display: block;
+}
+
+.add-form input,
+.add-form select,
+.add-form textarea {
+  margin-left: 8px;
+}
+
+.add-form input[type='checkbox'] {
+  margin-left: 0;
+}
