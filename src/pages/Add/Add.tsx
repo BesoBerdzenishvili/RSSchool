@@ -1,16 +1,6 @@
 import React from 'react';
+import { FormData } from '../../types/FormData';
 import './Add.css';
-
-type FormData = {
-  id: string;
-  img: File | undefined;
-  price: number;
-  priceType: string;
-  showPrice: boolean;
-  description: string;
-  date: string;
-  recieveEmails: string;
-};
 
 type Props = {
   formData: FormData[];
