@@ -1,11 +1,6 @@
 import React from 'react';
-import { FormData } from '../../types/FormData';
+import { FormDataContext } from '../../contexts/formDataContext';
 import './Add.css';
-
-type Props = {
-  formData: FormData[];
-  setFormData: (data: FormData[]) => void;
-};
 
 type State = {
   errors: {
@@ -15,7 +10,10 @@ type State = {
   };
 };
 
-class Add extends React.Component<Props, State> {
+class Add extends React.Component<{}, State> {
+  static contextType = FormDataContext;
+  declare context: React.ContextType<typeof FormDataContext>;
+
   private fileInput = React.createRef<HTMLInputElement>();
   private imgElement = React.createRef<HTMLImageElement>();
   private uploadButton = React.createRef<HTMLButtonElement>();
@@ -29,6 +27,7 @@ class Add extends React.Component<Props, State> {
   state: State = {
     errors: {},
   };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -46,10 +45,6 @@ class Add extends React.Component<Props, State> {
       errors = { ...errors, price: 'Price must be at least a four-digit number' };
     }
 
-    if (!showPrice) {
-      errors = { ...errors, showPrice: 'Show Price must be selected' };
-    }
-
     if (!img) {
       errors = { ...errors, img: 'Image must be uploaded' };
     }
@@ -60,9 +55,8 @@ class Add extends React.Component<Props, State> {
     }
 
     const id = Math.random().toString(36).substr(2, 9);
-
-    this.props.setFormData([
-      ...this.props.formData,
+    this.context.setFormData([
+      ...this.context.formData,
       { id, img, price, priceType, showPrice, description, date, recieveEmails },
     ]);
 
@@ -84,6 +78,15 @@ class Add extends React.Component<Props, State> {
     }
     if (this.priceInput.current) {
       this.priceInput.current.value = '';
+    }
+    if (this.descriptionInput.current) {
+      this.descriptionInput.current.value = '';
+    }
+    if (this.dateInput.current) {
+      this.dateInput.current.value = '';
+    }
+    if (this.recieveEmailsInput.current) {
+      this.recieveEmailsInput.current.value = 'every week';
     }
     if (this.priceTypeInput.current) {
       this.priceTypeInput.current.value = 'Guide Price';
@@ -159,7 +162,6 @@ class Add extends React.Component<Props, State> {
           <br />
           <input type="checkbox" ref={this.showPriceInput} />
         </label>
-        {this.state.errors.showPrice && <div className="error">{this.state.errors.showPrice}</div>}
         <br />
         <label>
           Description:
