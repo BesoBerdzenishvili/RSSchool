@@ -1,24 +1,18 @@
 import React from 'react';
+import { FormData } from '../../types/FormData';
 import './Card.css';
 
-interface CardProps {
-  imgUrl: string;
-  price?: number;
-  description: string;
-  date: string;
-}
-
-export class Card extends React.Component<CardProps> {
+export class Card extends React.Component<FormData> {
   render() {
-    const { imgUrl, price, description, date } = this.props;
+    const { img, price, showPrice, priceType, description, date } = this.props;
 
     return (
       <div className="card">
-        <img src={imgUrl} alt="card image" width={300} />
-        {price ? <div className="price">${price}</div> : <h3>POA</h3>}
-        {price && <div className="guide-price">Guide Price</div>}
-        <div className="description">{description}</div>
-        <div className="date">Added on: {date}</div>
+        <img src={img && URL.createObjectURL(img)} alt="card image" width={300} />
+        {showPrice ? <div className="price">${price}</div> : <h3>POA</h3>}
+        {<div className="guide-price">{priceType}</div>}
+        <div className="description">{description && description}</div>
+        {date && <div className="date">Added on: {date}</div>}
       </div>
     );
   }
