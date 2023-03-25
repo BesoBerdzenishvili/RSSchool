@@ -1,35 +1,23 @@
 import React from 'react';
+import { FormDataContext } from '../../contexts/formDataContext';
 import { Card } from '../Card/Card';
 import './Cards.css';
 
 export class Cards extends React.Component {
+  static contextType = FormDataContext;
+  declare context: React.ContextType<typeof FormDataContext>;
   render() {
+    const { formData } = this.context;
+
     return (
       <div className="cards">
-        {/* <Card
-          imgUrl="https://c1.wallpaperflare.com/preview/259/612/50/small-wooden-house-tiny-house-architecture.jpg"
-          price={44444}
-          description="Wilton Mews, Belgravia, London, Sw1X"
-          date="10/10/2023"
-        />
-        <Card
-          imgUrl="https://c1.wallpaperflare.com/preview/259/612/50/small-wooden-house-tiny-house-architecture.jpg"
-          price={44444}
-          description="Wilton Mews, Belgravia, London, Sw1X"
-          date="10/10/2023"
-        />
-        <Card
-          imgUrl="https://c1.wallpaperflare.com/preview/259/612/50/small-wooden-house-tiny-house-architecture.jpg"
-          price={44444}
-          description="Wilton Mews, Belgravia, London, Sw1X"
-          date="10/10/2023"
-        />
-        <Card
-          imgUrl="https://c1.wallpaperflare.com/preview/259/612/50/small-wooden-house-tiny-house-architecture.jpg"
-          price={44444}
-          description="Wilton Mews, Belgravia, London, Sw1X"
-          date="10/10/2023"
-        /> */}
+        {formData.length > 0 ? (
+          formData.map((i) => <Card key={i.id} data={i} />)
+        ) : (
+          <p className="add-message">
+            Please add data <a href="/add">here</a>
+          </p>
+        )}
       </div>
     );
   }

@@ -5,3 +5,7 @@
   flex-wrap: wrap;
   margin-top: 14px;
 }
+.add-message {
+  margin: 8px;
+  font-size: 19px;
+}

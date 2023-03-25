@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">28.57% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>2/7</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -87,8 +87,7 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -98,42 +97,40 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import { FormData } from '../../types/FormData';
 import './Card.css';
 &nbsp;
 interface CardProps {
-  imgUrl: string;
-  price?: number;
-  description: string;
-  date: string;
+  data: FormData;
 }
 &nbsp;
 export class Card extends React.Component&lt;CardProps&gt; {
   render() {
-    const { imgUrl, price, description, date } = this.props;
+    const { data } = this.props;
+    const { img, price, showPrice, priceType, description, date } = data;
 &nbsp;
     return (
       &lt;div className="card"&gt;
-        &lt;img src={imgUrl} alt="card image" width={300} /&gt;
-        {price ? &lt;div className="price"&gt;${price}&lt;/div&gt; : &lt;h3&gt;POA&lt;/h3&gt;}
-        {price &amp;&amp; &lt;div className="guide-price"&gt;Guide Price&lt;/div&gt;}
-        &lt;div className="description"&gt;{description}&lt;/div&gt;
-        &lt;div className="date"&gt;Added on: {date}&lt;/div&gt;
+        &lt;img src={<span class="branch-0 cbranch-no" title="branch not covered" >img &amp;&amp; URL.createObjectURL(img)} a</span>lt="card image" width={300} /&gt;
+        {<span class="branch-0 cbranch-no" title="branch not covered" >showPrice ? &lt;div className="price"&gt;${price}<span class="branch-0 cbranch-no" title="branch not covered" >&lt;/div&gt; : &lt;</span>h4&gt;POA&lt;/h4&gt;}</span>
+        {&lt;div className="guide-price"&gt;{priceType}&lt;/div&gt;}
+        &lt;div className="description"&gt;{<span class="branch-0 cbranch-no" title="branch not covered" >description &amp;&amp; description}&lt;</span>/div&gt;
+        {<span class="branch-0 cbranch-no" title="branch not covered" >date &amp;&amp; &lt;div className="date"&gt;Added on: {date}&lt;/div&gt;}</span>
       &lt;/div&gt;
     );
   }
@@ -145,7 +142,7 @@ export class Card extends React.Component&lt;CardProps&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-24T10:15:46.904Z
+                at 2023-03-25T13:33:45.782Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

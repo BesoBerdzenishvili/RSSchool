@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1679652946981" clover="3.2.0">
-  <project timestamp="1679652946981" name="All files">
-    <metrics statements="87" coveredstatements="87" conditionals="13" coveredconditionals="13" methods="9" coveredmethods="9" elements="109" coveredelements="109" complexity="0" loc="87" ncloc="87" packages="4" files="4" classes="4"/>
+<coverage generated="1679751225867" clover="3.2.0">
+  <project timestamp="1679751225868" name="All files">
+    <metrics statements="86" coveredstatements="86" conditionals="15" coveredconditionals="10" methods="9" coveredmethods="9" elements="110" coveredelements="105" complexity="0" loc="86" ncloc="86" packages="4" files="4" classes="4"/>
     <package name="components.Card">
-      <metrics statements="25" coveredstatements="25" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2"/>
+      <metrics statements="24" coveredstatements="24" conditionals="7" coveredconditionals="2" methods="2" coveredmethods="2"/>
       <file name="Card.tsx" path="C:\Users\program\Music\React projects\RsSchool\src\components\Card\Card.tsx">
-        <metrics statements="25" coveredstatements="25" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2"/>
+        <metrics statements="24" coveredstatements="24" conditionals="7" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -15,22 +15,21 @@
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="18" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="20" count="2" type="stmt"/>
-        <line num="21" count="2" type="stmt"/>
-        <line num="22" count="2" type="stmt"/>
-        <line num="23" count="2" type="stmt"/>
-        <line num="24" count="2" type="stmt"/>
-        <line num="25" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="10" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="12" count="8" type="stmt"/>
+        <line num="13" count="8" type="stmt"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="16" count="8" type="cond" truecount="0" falsecount="1"/>
+        <line num="17" count="8" type="cond" truecount="0" falsecount="2"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="19" count="8" type="cond" truecount="0" falsecount="1"/>
+        <line num="20" count="8" type="cond" truecount="0" falsecount="1"/>
+        <line num="21" count="8" type="stmt"/>
+        <line num="22" count="8" type="stmt"/>
+        <line num="23" count="8" type="stmt"/>
+        <line num="24" count="2" type="cond" truecount="1" falsecount="0"/>
       </file>
     </package>
     <package name="components.Search">

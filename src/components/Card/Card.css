@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   margin: 8px;
+  border: 1px solid grey;
+  text-align: center;
 }
 
 .price {
@@ -13,5 +15,11 @@
 }
 
 .description {
-  margin-top: auto;
+  margin: 8px 0;
+}
+.card img {
+  max-height: 233px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
