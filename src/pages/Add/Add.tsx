@@ -127,10 +127,16 @@ class Add extends React.Component<{}, State> {
         <img ref={this.imgElement} />
         {this.state.errors.img && <div className="error">{this.state.errors.img}</div>}
         <br />
-        <label>
+        <label htmlFor="price" data-testid="price-label">
           Price:
           <br />
-          <input type="number" ref={this.priceInput} />
+          <input
+            name="price"
+            id="price"
+            type="number"
+            ref={this.priceInput}
+            data-testid="price-input"
+          />
         </label>
         {this.state.errors.price && <div className="error">{this.state.errors.price}</div>}
         <br />
@@ -187,7 +193,9 @@ class Add extends React.Component<{}, State> {
         </label>
 
         <br />
-        <button type="submit">Submit</button>
+        <button type="submit" data-testid="submit-button">
+          Submit
+        </button>
       </form>
     );
   }

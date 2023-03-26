@@ -13,7 +13,9 @@ export class Card extends React.Component<CardProps> {
 
     return (
       <div className="card">
-        <img src={img && URL.createObjectURL(img)} alt="card image" width={300} />
+        {img && typeof URL !== 'undefined' && URL.createObjectURL && (
+          <img src={URL.createObjectURL(img)} alt="card image" width={300} />
+        )}
         {showPrice ? <div className="price">${price}</div> : <h4>POA</h4>}
         {<div className="guide-price">{priceType}</div>}
         <div className="description">{description && description}</div>
