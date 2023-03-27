@@ -10,7 +10,7 @@ type State = {
   };
 };
 
-class Add extends React.Component<{}, State> {
+class Add extends React.Component<State> {
   static contextType = FormDataContext;
   declare context: React.ContextType<typeof FormDataContext>;
 

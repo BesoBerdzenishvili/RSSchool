@@ -23,7 +23,7 @@ test('FormDataContext should provide formData and setFormData', () => {
 
     React.useEffect(() => {
       setFormData(testFormData);
-    }, []);
+    }, [setFormData]);
 
     return (
       <>

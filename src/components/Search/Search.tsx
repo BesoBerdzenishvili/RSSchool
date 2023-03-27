@@ -5,7 +5,7 @@ interface SearchState {
   value: string;
 }
 
-class Search extends React.Component<{}, SearchState> {
+class Search extends React.Component<SearchState> {
   state: SearchState = { value: '' };
 
   componentDidMount() {
