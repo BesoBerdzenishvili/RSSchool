@@ -7,6 +7,8 @@ type State = {
     price?: string;
     showPrice?: string;
     img?: string;
+    description?: string;
+    date?: string;
   };
 };
 
@@ -45,8 +47,16 @@ class Add extends React.Component {
       errors = { ...errors, price: 'Price must be at least a four-digit number' };
     }
 
+    if (description.length < 10) {
+      errors = { ...errors, description: 'Please provide detailed description' };
+    }
+
     if (!img) {
       errors = { ...errors, img: 'Image must be uploaded' };
+    }
+
+    if (!date) {
+      errors = { ...errors, date: 'Please provide date' };
     }
 
     if (Object.keys(errors).length > 0) {
@@ -174,12 +184,16 @@ class Add extends React.Component {
           <br />
           <textarea ref={this.descriptionInput} />
         </label>
+        {this.state.errors.description && (
+          <div className="error">{this.state.errors.description}</div>
+        )}
         <br />
         <label>
           Date:
           <br />
           <input type="date" ref={this.dateInput} />
         </label>
+        {this.state.errors.date && <div className="error">{this.state.errors.date}</div>}
         <br />
         <label>
           Recieve Emails:
