@@ -9,6 +9,10 @@
   min-width: 204px;
 }
 
+.upload-image {
+  max-width: 333px;
+}
+
 .error {
   color: red;
   font-style: italic;

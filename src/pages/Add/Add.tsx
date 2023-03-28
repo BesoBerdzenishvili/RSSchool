@@ -124,7 +124,7 @@ class Add extends React.Component {
         <button type="button" onClick={this.handleFileClick} ref={this.uploadButton}>
           Upload Image
         </button>
-        <img ref={this.imgElement} />
+        <img ref={this.imgElement} className="upload-image" />
         {this.state.errors.img && <div className="error">{this.state.errors.img}</div>}
         <br />
         <label htmlFor="price" data-testid="price-label">
