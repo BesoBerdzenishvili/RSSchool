@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { it, test, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { FormDataContext } from '../../contexts/formDataContext';
 import Add from './Add';
@@ -10,7 +10,7 @@ test('Add form submits data to context', async () => {
       img: undefined,
       price: 10,
       priceType: 'per hour',
-      showPrice: true,
+      agreeTerms: true,
       description: 'Test description',
       date: '2023-03-26',
       recieveEmails: 'yes',

@@ -5,10 +5,12 @@ import './Add.css';
 type State = {
   errors: {
     price?: string;
-    showPrice?: string;
+    agreeTerms?: string;
     img?: string;
     description?: string;
     date?: string;
+    priceType?: string;
+    recieveEmails?: string;
   };
 };
 
@@ -21,7 +23,7 @@ class Add extends React.Component {
   private uploadButton = React.createRef<HTMLButtonElement>();
   private priceInput = React.createRef<HTMLInputElement>();
   private priceTypeInput = React.createRef<HTMLInputElement>();
-  private showPriceInput = React.createRef<HTMLInputElement>();
+  private agreeTermsInput = React.createRef<HTMLInputElement>();
   private descriptionInput = React.createRef<HTMLTextAreaElement>();
   private dateInput = React.createRef<HTMLInputElement>();
   private recieveEmailsInput = React.createRef<HTMLSelectElement>();
@@ -35,11 +37,11 @@ class Add extends React.Component {
 
     const img = this.fileInput.current?.files?.[0];
     const price = Number(this.priceInput.current?.value);
-    const priceType = this.priceTypeInput.current?.value || 'Guide Price';
-    const showPrice = this.showPriceInput.current?.checked || false;
+    const priceType = this.priceTypeInput.current?.checked ? this.priceTypeInput.current.value : '';
+    const agreeTerms = this.agreeTermsInput.current?.checked || false;
     const description = this.descriptionInput.current?.value || '';
     const date = this.dateInput.current?.value || '';
-    const recieveEmails = this.recieveEmailsInput.current?.value || 'every week';
+    const recieveEmails = this.recieveEmailsInput.current?.value || '';
 
     let errors = {};
 
@@ -59,6 +61,17 @@ class Add extends React.Component {
       errors = { ...errors, date: 'Please provide date' };
     }
 
+    if (!priceType) {
+      errors = { ...errors, priceType: 'Please specify your price type' };
+    }
+    if (!recieveEmails) {
+      errors = { ...errors, recieveEmails: 'Please choose one option' };
+    }
+
+    if (!agreeTerms) {
+      errors = { ...errors, agreeTerms: 'You must agree to our terms of service' };
+    }
+
     if (Object.keys(errors).length > 0) {
       this.setState({ errors });
       return;
@@ -67,7 +80,7 @@ class Add extends React.Component {
     const id = Math.random().toString(36).substr(2, 9);
     this.context.setFormData([
       ...this.context.formData,
-      { id, img, price, priceType, showPrice, description, date, recieveEmails },
+      { id, img, price, priceType, agreeTerms, description, date, recieveEmails },
     ]);
 
     if (Object.keys(errors).length > 0) {
@@ -96,13 +109,13 @@ class Add extends React.Component {
       this.dateInput.current.value = '';
     }
     if (this.recieveEmailsInput.current) {
-      this.recieveEmailsInput.current.value = 'every week';
+      this.recieveEmailsInput.current.value = '';
     }
     if (this.priceTypeInput.current) {
-      this.priceTypeInput.current.value = 'Guide Price';
+      this.priceTypeInput.current.value = '';
     }
-    if (this.showPriceInput.current) {
-      this.showPriceInput.current.checked = false;
+    if (this.agreeTermsInput.current) {
+      this.agreeTermsInput.current.checked = false;
     }
     this.setState({ errors: {} });
   };
@@ -130,7 +143,12 @@ class Add extends React.Component {
   render() {
     return (
       <form className="add-form" onSubmit={this.handleSubmit}>
-        <input type="file" ref={this.fileInput} style={{ display: 'none' }} />
+        <input
+          type="file"
+          accept="image/jpeg,image/png"
+          ref={this.fileInput}
+          style={{ display: 'none' }}
+        />
         <button type="button" onClick={this.handleFileClick} ref={this.uploadButton}>
           Upload Image
         </button>
@@ -155,29 +173,18 @@ class Add extends React.Component {
           <br />
           <div className="radio">
             <label>
-              <input
-                defaultChecked
-                type="radio"
-                value="Guide Price"
-                name="priceType"
-                ref={this.priceTypeInput}
-              />
+              <input type="radio" value="Guide Price" name="price-type" ref={this.priceTypeInput} />
               Guide Price
             </label>
           </div>
           <div className="radio">
             <label>
-              <input type="radio" value="Exact Price" name="priceType" ref={this.priceTypeInput} />
+              <input type="radio" value="Exact Price" name="price-type" ref={this.priceTypeInput} />
               Exact Price
             </label>
           </div>
         </label>
-        <br />
-        <label>
-          Show Price:
-          <br />
-          <input type="checkbox" ref={this.showPriceInput} />
-        </label>
+        {this.state.errors.priceType && <div className="error">{this.state.errors.priceType}</div>}
         <br />
         <label>
           Description:
@@ -198,13 +205,26 @@ class Add extends React.Component {
         <label>
           Recieve Emails:
           <br />
-          <select ref={this.recieveEmailsInput} defaultValue={'every week'}>
+          <select ref={this.recieveEmailsInput}>
+            <option value="">Choose time</option>
             <option value="never">Never</option>
             <option value="every day">Every Day</option>
             <option value="every week">Every Week</option>
             <option value="every month">Every Month</option>
           </select>
         </label>
+        {this.state.errors.recieveEmails && (
+          <div className="error">{this.state.errors.recieveEmails}</div>
+        )}
+        <br />
+        <label>
+          I agree to terms of service
+          <br />
+          <input type="checkbox" ref={this.agreeTermsInput} />
+        </label>
+        {this.state.errors.agreeTerms && (
+          <div className="error">{this.state.errors.agreeTerms}</div>
+        )}
 
         <br />
         <button type="submit" data-testid="submit-button">

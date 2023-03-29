@@ -3,7 +3,7 @@ export type FormData = {
   img: File | undefined;
   price: number;
   priceType: string;
-  showPrice: boolean;
+  agreeTerms: boolean;
   description: string;
   date: string;
   recieveEmails: string;
