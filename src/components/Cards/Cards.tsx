@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormDataContext } from '../../contexts/formDataContext';
-import { Card } from '../Card/Card';
+import Card from '../Card/Card';
 import './Cards.css';
 
 export class Cards extends React.Component {
