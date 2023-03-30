@@ -1,6 +1,6 @@
 export type FormData = {
   id: string;
-  img: File | undefined;
+  img: FileList | undefined;
   price: number;
   priceType: string;
   agreeTerms: boolean;
