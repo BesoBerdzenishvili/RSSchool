@@ -10,7 +10,7 @@ test('Cards component should render correctly', () => {
       img: undefined,
       price: 10,
       priceType: 'USD',
-      showPrice: true,
+      agreeTerms: true,
       description: 'Test description',
       date: '2022-01-01',
       recieveEmails: 'yes',

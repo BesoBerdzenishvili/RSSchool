@@ -11,7 +11,7 @@ test('FormDataContext should provide formData and setFormData', () => {
       img: undefined,
       price: 10,
       priceType: 'USD',
-      showPrice: true,
+      agreeTerms: true,
       description: 'Test item',
       date: '2022-01-01',
       recieveEmails: 'yes',

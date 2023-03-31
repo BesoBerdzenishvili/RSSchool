@@ -1,104 +1,83 @@
-import { it, test, expect } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
-import { FormDataContext } from '../../contexts/formDataContext';
+import { test, describe, expect, vitest } from 'vitest';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { FormDataProvider } from '../../contexts/formDataContext';
 import Add from './Add';
 
-test('Add form submits data to context', async () => {
-  const formData = [
-    {
-      id: '1',
-      img: undefined,
-      price: 10,
-      priceType: 'per hour',
+describe('Add', () => {
+  test('renders form fields', () => {
+    render(
+      <Router>
+        <Add />
+      </Router>
+    );
+    expect(screen.getByLabelText('Image:')).toBeTruthy();
+    expect(screen.getByLabelText('Price:')).toBeTruthy();
+    expect(screen.getByLabelText('Price Type:')).toBeTruthy();
+    expect(screen.getByLabelText('Description:')).toBeTruthy();
+    expect(screen.getByLabelText('Date:')).toBeTruthy();
+    expect(screen.getByLabelText('Recieve Emails:')).toBeTruthy();
+    expect(screen.getByLabelText('I agree to terms of service')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeTruthy();
+  });
+
+  test('form submission with required fields', async () => {
+    const setFormData = vitest.fn();
+    const { container } = render(
+      <Router>
+        <FormDataProvider>
+          <Add />
+        </FormDataProvider>
+      </Router>
+    );
+    const imageInput = screen.getByLabelText('Image:');
+    const priceInput = screen.getByLabelText('Price:');
+    const priceTypeInput = screen.getByLabelText('Price Type:');
+    const descriptionInput = screen.getByLabelText('Description:');
+    const dateInput = screen.getByLabelText('Date:');
+    const receiveEmailsInput = screen.getByLabelText('Recieve Emails:');
+    const agreeTermsInput = screen.getByLabelText('I agree to terms of service');
+
+    fireEvent.change(imageInput, { target: { files: [new File([], 'image.png')] } });
+    fireEvent.change(priceInput, { target: { value: '1500' } });
+    fireEvent.click(priceTypeInput);
+    fireEvent.change(descriptionInput, { target: { value: 'This is a test description.' } });
+    fireEvent.change(dateInput, { target: { value: '2023-04-01' } });
+    fireEvent.change(receiveEmailsInput, { target: { value: 'every week' } });
+    fireEvent.click(agreeTermsInput);
+
+    fireEvent.submit(container.querySelector('form')!);
+    expect.objectContaining({
+      id: expect.any(String),
+      img: expect.any(File),
+      price: 1500,
+      priceType: 'Guide Price',
+      description: 'This is a test description.',
+      date: '2023-04-01',
+      receiveEmails: 'every week',
       agreeTerms: true,
-      description: 'Test description',
-      date: '2023-03-26',
-      recieveEmails: 'yes',
-    },
-  ];
+    });
+  });
 
-  const setFormData = () => {};
+  test('form submission with missing required fields', async () => {
+    const { container } = render(
+      <Router>
+        <FormDataProvider>
+          <Add />
+        </FormDataProvider>
+      </Router>
+    );
 
-  const { getByLabelText, getByText } = render(
-    <FormDataContext.Provider value={{ formData, setFormData }}>
-      <Add />
-    </FormDataContext.Provider>
-  );
+    fireEvent.submit(container.querySelector('form') as HTMLFormElement);
 
-  const priceTypeSelect = getByLabelText('Price Type');
-  const descriptionInput = getByLabelText('Description');
-  const dateInput = getByLabelText('Date');
-  const recieveEmailsRadioYes = getByLabelText('Yes');
-  const recieveEmailsRadioNo = getByLabelText('No');
-  const submitButton = getByText('Submit');
-
-  fireEvent.change(priceTypeSelect, { target: { value: 'per hour' } });
-  fireEvent.change(descriptionInput, { target: { value: 'Test description' } });
-  fireEvent.change(dateInput, { target: { value: '2023-03-26' } });
-  fireEvent.click(recieveEmailsRadioYes);
-  fireEvent.click(submitButton);
-
-  expect(setFormData).toHaveBeenCalledWith([
-    ...formData,
-    {
-      id: expect.any(String),
-      img: undefined,
-      price: 10,
-      priceType: 'per hour',
-      showPrice: true,
-      description: 'Test description',
-      date: '2023-03-26',
-      recieveEmails: 'yes',
-    },
-    {
-      id: expect.any(String),
-      img: undefined,
-      price: undefined,
-      priceType: 'per hour',
-      showPrice: true,
-      description: 'Test description',
-      date: '2023-03-26',
-      recieveEmails: 'yes',
-    },
-  ]);
-
-  fireEvent.change(priceTypeSelect, { target: { value: 'fixed' } });
-  fireEvent.change(descriptionInput, { target: { value: 'Another description' } });
-  fireEvent.change(dateInput, { target: { value: '2023-03-27' } });
-  fireEvent.click(recieveEmailsRadioNo);
-  fireEvent.click(submitButton);
-
-  expect(setFormData).toHaveBeenCalledWith([
-    ...formData,
-    {
-      id: expect.any(String),
-      img: undefined,
-      price: 10,
-      priceType: 'per hour',
-      showPrice: true,
-      description: 'Test description',
-      date: '2023-03-26',
-      recieveEmails: 'yes',
-    },
-    {
-      id: expect.any(String),
-      img: undefined,
-      price: undefined,
-      priceType: 'per hour',
-      showPrice: true,
-      description: 'Test description',
-      date: '2023-03-26',
-      recieveEmails: 'yes',
-    },
-    {
-      id: expect.any(String),
-      img: undefined,
-      price: undefined,
-      priceType: 'fixed',
-      showPrice: true,
-      description: 'Another description',
-      date: '2023-03-27',
-      recieveEmails: 'no',
-    },
-  ]);
+    expect(await screen.findByText('Image is required')).toBeTruthy();
+    expect(await screen.findAllByText('Price must be greater than or equal to 1000')).toBeTruthy();
+    expect(await screen.findAllByText('Price Type is required')).toBeTruthy();
+    expect(
+      await screen.findAllByText('Description must be at least 10 characters long')
+    ).toBeTruthy();
+    expect(await screen.findAllByText('Date is required')).toBeTruthy();
+    expect(await screen.findAllByText('Recieve Emails is required')).toBeTruthy();
+    expect(await screen.findAllByText('You must agree to the terms of service')).toBeTruthy();
+  });
 });

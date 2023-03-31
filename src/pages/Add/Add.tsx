@@ -49,12 +49,13 @@ const Add = () => {
       {errors.img && <p className="error">Image is required</p>}
       <br />
       <label htmlFor="price">Price:</label>
-      <input type="number" {...register('price', { required: true, min: 1000 })} />
+      <input type="number" id="price" {...register('price', { required: true, min: 1000 })} />
       {errors.price && <p className="error">Price must be greater than or equal to 1000</p>}
       <br />
       <label htmlFor="priceType">Price Type:</label>
       <input
         className="radio"
+        id="priceType"
         type="radio"
         value="Guide Price"
         {...register('priceType', { required: true })}
@@ -69,16 +70,16 @@ const Add = () => {
       Exact Price
       {errors.priceType && <p className="error">Price Type is required</p>}
       <label htmlFor="description">Description:</label>
-      <textarea {...register('description', { required: true, minLength: 10 })} />
+      <textarea id="description" {...register('description', { required: true, minLength: 10 })} />
       {errors.description && (
         <p className="error">Description must be at least 10 characters long</p>
       )}
       <br />
       <label htmlFor="date">Date:</label>
-      <input type="date" {...register('date', { required: true })} />
+      <input id="date" type="date" {...register('date', { required: true })} />
       {errors.date && <p className="error">Date is required</p>}
       <label htmlFor="recieveEmails">Recieve Emails:</label>
-      <select {...register('recieveEmails', { required: true })}>
+      <select id="recieveEmails" {...register('recieveEmails', { required: true })}>
         <option value="">Choose option</option>
         <option value="never">Never</option>
         <option value="every day">Every day</option>
@@ -87,11 +88,9 @@ const Add = () => {
       </select>
       {errors.recieveEmails && <p className="error">Recieve Emails is required</p>}
       <br />
-      <label htmlFor="agreeTerms">
-        I agree to terms of service
-        <br />
-        <input type="checkbox" {...register('agreeTerms', { required: true })} />
-      </label>
+      <label htmlFor="agreeTerms">I agree to terms of service</label>
+      <br />
+      <input id="agreeTerms" type="checkbox" {...register('agreeTerms', { required: true })} />
       {errors.agreeTerms && <p className="error">You must agree to the terms of service</p>}
       <br />
       <button type="submit">Submit</button>
