@@ -1,0 +1,10 @@
+.search-input {
+  border: solid magenta;
+  border-radius: 44px;
+  font-size: 19px;
+  padding: 0 17px;
+  color: green;
+  width: 644px;
+  height: 44px;
+  outline: none;
+}
