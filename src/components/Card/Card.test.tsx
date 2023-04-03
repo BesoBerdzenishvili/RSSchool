@@ -35,7 +35,6 @@ describe('Card', () => {
   });
 
   it('does not render the image if URL is undefined', () => {
-    const URL = undefined;
     render(<Card data={data} />);
     expect(screen.queryByAltText('card image')).not.toBeTruthy();
   });

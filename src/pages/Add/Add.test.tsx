@@ -1,4 +1,4 @@
-import { test, describe, expect, vitest } from 'vitest';
+import { test, describe, expect } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { FormDataProvider } from '../../contexts/formDataContext';
@@ -22,7 +22,6 @@ describe('Add', () => {
   });
 
   test('form submission with required fields', async () => {
-    const setFormData = vitest.fn();
     const { container } = render(
       <Router>
         <FormDataProvider>

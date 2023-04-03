@@ -11,7 +11,7 @@ export const FormDataContext = createContext<FormDataContextType>({
   setFormData: () => {},
 });
 
-export const FormDataProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+export const FormDataProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [formData, setFormData] = useState<FormData[]>([]);
 
   return (
