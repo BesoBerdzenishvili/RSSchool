@@ -1,25 +1,37 @@
-import React, { ChangeEvent, useCallback, useEffect, useRef } from 'react';
-import { useBeforeUnload } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './Search.css';
 
 const Search: React.FC = () => {
-  const search = useRef<string>(localStorage.getItem('searchValue') || '');
+  const [searchValue, setSearchValue] = useState(() => {
+    const saved = localStorage.getItem('searchValue');
+    return saved ? saved : '';
+  });
 
-  const saveSearchValueInLS = useCallback(() => {
-    localStorage.setItem('searchValue', search.current);
-  }, []);
+  useEffect(() => {
+    localStorage.setItem('searchValue', searchValue);
+  }, [searchValue]);
 
-  useBeforeUnload(saveSearchValueInLS);
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.setItem('searchValue', searchValue);
+    };
 
-  useEffect(() => () => saveSearchValueInLS(), [saveSearchValueInLS]);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => (search.current = e.target.value);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [searchValue]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
 
   return (
     <input
       type="text"
       className="search-input"
-      defaultValue={search.current}
+      value={searchValue}
       onChange={handleChange}
       data-testid="search-input"
     />
