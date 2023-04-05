@@ -1,0 +1,11 @@
+.cards {
+  max-width: 644px;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.add-message {
+  margin: 8px;
+  font-size: 19px;
+}
