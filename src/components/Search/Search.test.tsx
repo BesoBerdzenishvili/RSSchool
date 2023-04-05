@@ -20,7 +20,7 @@ describe('Search', () => {
     const input = container.querySelector('input.search-input') as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'test' } });
     fireEvent(window, new Event('beforeunload'));
-    expect(localStorage.getItem('searchValue')).toBe('"test"');
+    expect(localStorage.getItem('searchValue')).toBe('test');
   });
 });
 
