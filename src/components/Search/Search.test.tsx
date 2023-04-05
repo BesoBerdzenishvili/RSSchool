@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { test, describe, expect, it, vitest } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import Search from './Search';
 
@@ -14,6 +14,13 @@ describe('Search', () => {
     const input = container.querySelector('input.search-input') as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'test' } });
     expect(input.value).toBe('test');
+  });
+  it('saves the value to localStorage when the beforeunload event is fired', () => {
+    const { container } = render(<Search />);
+    const input = container.querySelector('input.search-input') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'test' } });
+    fireEvent(window, new Event('beforeunload'));
+    expect(localStorage.getItem('searchValue')).toBe('"test"');
   });
 });
 

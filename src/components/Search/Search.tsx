@@ -4,11 +4,11 @@ import './Search.css';
 const Search: React.FC = () => {
   const [searchValue, setSearchValue] = useState(() => {
     const saved = localStorage.getItem('searchValue');
-    return saved ? JSON.parse(saved) : '';
+    return saved ? saved : '';
   });
 
   useEffect(() => {
-    localStorage.setItem('searchValue', JSON.stringify(searchValue));
+    localStorage.setItem('searchValue', searchValue);
   }, [searchValue]);
 
   useEffect(() => {
