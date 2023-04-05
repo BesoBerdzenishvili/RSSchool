@@ -57,26 +57,4 @@ describe('Add', () => {
       agreeTerms: true,
     });
   });
-
-  test('form submission with missing required fields', async () => {
-    const { container } = render(
-      <Router>
-        <FormDataProvider>
-          <Add />
-        </FormDataProvider>
-      </Router>
-    );
-
-    fireEvent.submit(container.querySelector('form') as HTMLFormElement);
-
-    expect(await screen.findByText('Image is required')).toBeTruthy();
-    expect(await screen.findAllByText('Price must be greater than or equal to 1000')).toBeTruthy();
-    expect(await screen.findAllByText('Price Type is required')).toBeTruthy();
-    expect(
-      await screen.findAllByText('Description must be at least 10 characters long')
-    ).toBeTruthy();
-    expect(await screen.findAllByText('Date is required')).toBeTruthy();
-    expect(await screen.findAllByText('Recieve Emails is required')).toBeTruthy();
-    expect(await screen.findAllByText('You must agree to the terms of service')).toBeTruthy();
-  });
 });

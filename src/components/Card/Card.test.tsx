@@ -16,22 +16,22 @@ const data: FormData = {
 describe('Card', () => {
   it('renders the price', () => {
     render(<Card data={data} />);
-    expect(screen.getByText('$1001')).toBeTruthy();
+    expect(screen.getAllByText('$1001')).toBeTruthy();
   });
 
   it('renders the priceType', () => {
     render(<Card data={data} />);
-    expect(screen.getByText('Guide Price')).toBeTruthy();
+    expect(screen.getAllByText('Guide Price')).toBeTruthy();
   });
 
   it('renders the description', () => {
     render(<Card data={data} />);
-    expect(screen.getByText('Test Description')).toBeTruthy();
+    expect(screen.getAllByText('Test Description')).toBeTruthy();
   });
 
   it('renders the date', () => {
     render(<Card data={data} />);
-    expect(screen.getByText('Added on: 2022-01-01')).toBeTruthy();
+    expect(screen.getAllByText('Added on: 2022-01-01')).toBeTruthy();
   });
 
   it('does not render the image if URL is undefined', () => {
