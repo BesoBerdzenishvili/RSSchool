@@ -7,6 +7,14 @@ const Search: React.FC = () => {
     return saved ? saved : '';
   });
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      fetch(`https://rickandmortyapi.com/api/character?search=${searchValue}`)
+        .then((response) => response.json())
+        .then((data) => console.log(data.results));
+    }
+  };
+
   useEffect(() => {
     localStorage.setItem('searchValue', searchValue);
   }, [searchValue]);
@@ -33,6 +41,8 @@ const Search: React.FC = () => {
       className="search-input"
       value={searchValue}
       onChange={handleChange}
+      onKeyDown={handleKeyDown}
+      placeholder="Search here..."
       data-testid="search-input"
     />
   );
