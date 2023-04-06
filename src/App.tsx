@@ -4,7 +4,7 @@ import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import NoMatch from './pages/NoMatch/NoMatch';
 import Header from './layout/Header/Header';
-import Add from './pages/Add/Add';
+import Form from './pages/Form/Form';
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/add" element={<Add />} />
+          <Route path="/form" element={<Form />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </BrowserRouter>

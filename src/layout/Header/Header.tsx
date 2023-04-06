@@ -20,8 +20,8 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/add" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Add
+            <NavLink to="/form" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Form
             </NavLink>
           </li>
         </ul>

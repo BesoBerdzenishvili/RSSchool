@@ -27,8 +27,40 @@ test('Cards component should render correctly', () => {
 
   expect(getByText('Test description')).toBeTruthy();
 });
-test('Cards component should display "Please add data" message when formData is empty', () => {
-  const formData: [] = [];
+
+test('Cards component should render multiple Card components', () => {
+  const formData = [
+    {
+      id: '1',
+      img: undefined,
+      price: 10,
+      priceType: 'USD',
+      agreeTerms: true,
+      description: 'Test description 1',
+      date: '2022-01-01',
+      recieveEmails: 'yes',
+    },
+    {
+      id: '2',
+      img: undefined,
+      price: 20,
+      priceType: 'USD',
+      agreeTerms: true,
+      description: 'Test description 2',
+      date: '2022-01-02',
+      recieveEmails: 'no',
+    },
+    {
+      id: '3',
+      img: undefined,
+      price: 30,
+      priceType: 'USD',
+      agreeTerms: true,
+      description: 'Test description 3',
+      date: '2022-01-03',
+      recieveEmails: 'yes',
+    },
+  ];
 
   const setFormData = () => {};
 
@@ -38,5 +70,7 @@ test('Cards component should display "Please add data" message when formData is 
     </FormDataContext.Provider>
   );
 
-  expect(getByText('Please add data')).toBeTruthy();
+  expect(getByText('Test description 1')).toBeTruthy();
+  expect(getByText('Test description 2')).toBeTruthy();
+  expect(getByText('Test description 3')).toBeTruthy();
 });
