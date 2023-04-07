@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { FormData } from '../types/FormData';
+import { FormData } from '../types/DataTypes';
 
 type FormDataContextType = {
   formData: FormData[];

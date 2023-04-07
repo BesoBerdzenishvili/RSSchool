@@ -1,6 +1,6 @@
 import { it, describe, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { FormData } from '../../types/FormData';
+import { FormData } from '../../types/DataTypes';
 import Card from './Card';
 
 const data: FormData = {

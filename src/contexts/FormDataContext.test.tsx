@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { test, expect } from 'vitest';
 import { FormDataProvider, FormDataContext } from './formDataContext';
-import { FormData } from '../types/FormData';
+import { FormData } from '../types/DataTypes';
 
 test('FormDataContext should provide formData and setFormData', () => {
   const testFormData: FormData[] = [

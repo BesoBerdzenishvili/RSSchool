@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormData } from '../../../types/FormData';
+import { FormData } from '../../../types/DataTypes';
 import { FormDataContext } from '../../../contexts/formDataContext';
 import './Add.css';
 

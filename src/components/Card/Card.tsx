@@ -1,4 +1,4 @@
-import { FormData } from '../../types/FormData';
+import { FormData } from '../../types/DataTypes';
 import './Card.css';
 
 interface CardProps {
