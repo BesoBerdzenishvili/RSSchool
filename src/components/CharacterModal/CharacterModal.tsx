@@ -23,7 +23,7 @@ const CharacterModal: React.FC<ModalProps> = ({ info, setShowModal }) => {
           X
         </button>
         <h2>Character Info</h2>
-        <img src={image} alt={name} className="modal-img" width="344px" />
+        <img src={image} alt={name} className="modal-img" width="100%" />
         <p>
           <b>Name:</b> {name}
         </p>
