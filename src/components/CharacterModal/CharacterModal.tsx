@@ -17,9 +17,9 @@ const CharacterModal: React.FC<ModalProps> = ({ info, setShowModal }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={handleClick}>
-      <div className="modal-container">
-        <button className="delete-btn" onClick={handleClick}>
+    <div className="modal-overlay" onClick={handleClick} data-testid={'modal-overlay-' + info.id}>
+      <div className="modal-container" data-testid="modal-container">
+        <button data-testid="delete-btn-x" className="delete-btn" onClick={handleClick}>
           X
         </button>
         <h2>Character Info</h2>
@@ -36,7 +36,7 @@ const CharacterModal: React.FC<ModalProps> = ({ info, setShowModal }) => {
         </p>
         {type && (
           <p>
-            <b>Type:</b> type
+            <b>Type:</b> {type}
           </p>
         )}
         <p>
