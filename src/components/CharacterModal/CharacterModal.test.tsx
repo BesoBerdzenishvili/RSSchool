@@ -1,5 +1,5 @@
 import { it, test, describe, expect, vitest, afterEach } from 'vitest';
-import { render, fireEvent, screen, cleanup, getAllByTestId } from '@testing-library/react';
+import { render, fireEvent, screen, cleanup } from '@testing-library/react';
 import CharacterModal from './CharacterModal';
 
 const character = {
