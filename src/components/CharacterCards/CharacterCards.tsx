@@ -9,7 +9,7 @@ interface CharacterCardsProps {
 
 const CharacterCards: React.FC<CharacterCardsProps> = ({ characters }) => {
   return (
-    <div className="character-cards">
+    <div data-testid="character-cards" className="character-cards">
       {characters.map((character) => (
         <CharacterCard key={character.id} info={character} />
       ))}
