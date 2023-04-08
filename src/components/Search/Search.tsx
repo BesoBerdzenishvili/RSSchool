@@ -26,7 +26,6 @@ const Search: React.FC<PropsTypes> = ({ setCharacters, setLoading, setError }) =
         if (data.info) {
           setCharacters(data.results);
         } else if (data.error) {
-          console.log(data.error);
           setError(data.error);
         }
         setCharacters(data.results);

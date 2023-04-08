@@ -20,7 +20,7 @@ const Home = () => {
         if (data.info) {
           setCharacters(data.results);
         } else if (data.error) {
-          console.log(data.error);
+          setError(data.error);
         }
       } catch (error) {
         console.log(error);
