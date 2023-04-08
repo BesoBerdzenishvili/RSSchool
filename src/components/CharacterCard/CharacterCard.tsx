@@ -16,11 +16,17 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ info }) => {
   };
   return (
     <>
-      <div className="character-card" onClick={handleClick}>
-        <img src={image} alt={name} className="character-img" />
+      <div className="character-card" data-testid="character-card" onClick={handleClick}>
+        <img src={image} alt={name} className="character-img" data-testid="character-img-1" />
         <h2>Name: {name}</h2>
         <p>
-          Status: <span style={{ color: status === 'Alive' ? 'green' : 'red' }}>{status}</span>
+          Status:{' '}
+          <span
+            data-testid="character-status"
+            style={{ color: status === 'Alive' ? 'green' : 'red' }}
+          >
+            {status}
+          </span>
         </p>
       </div>
       {showModal && <CharacterModal info={info} setShowModal={setShowModal} />}
