@@ -1,17 +1,41 @@
 import React, { useState, useEffect } from 'react';
+import { CharacterCardData } from '../../types/DataTypes';
 import './Search.css';
 
-const Search: React.FC = () => {
+type PropsTypes = {
+  setLoading: (loading: boolean) => void;
+  setError: (error: string) => void;
+  setCharacters: (characters: CharacterCardData[]) => void;
+};
+
+const Search: React.FC<PropsTypes> = ({ setCharacters, setLoading, setError }) => {
   const [searchValue, setSearchValue] = useState(() => {
     const saved = localStorage.getItem('searchValue');
     return saved ? saved : '';
   });
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = async (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      fetch(`https://rickandmortyapi.com/api/character?search=${searchValue}`)
-        .then((response) => response.json())
-        .then((data) => console.log(data.results));
+      setLoading(true);
+      setError('');
+      try {
+        const response = await fetch(
+          `https://rickandmortyapi.com/api/character/?name=${searchValue}`
+        );
+        const data = await response.json();
+        if (data.info) {
+          setCharacters(data.results);
+        } else if (data.error) {
+          console.log(data.error);
+          setError(data.error);
+        }
+        setCharacters(data.results);
+      } catch (error) {
+        console.log(error);
+        setError('Something went wrong...');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -42,7 +66,7 @@ const Search: React.FC = () => {
       value={searchValue}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
-      placeholder="Search here..."
+      placeholder="Search character..."
       data-testid="search-input"
     />
   );
