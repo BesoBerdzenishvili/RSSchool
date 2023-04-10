@@ -9,7 +9,26 @@ const Home = () => {
   const [characters, setCharacters] = useState<CharacterCardData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(() => {
+    const saved = localStorage.getItem('searchValue');
+    return saved ? saved : '';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('searchValue', searchValue);
+  }, [searchValue]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.setItem('searchValue', searchValue);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [searchValue]);
 
   useEffect(() => {
     const fetchData = async () => {
