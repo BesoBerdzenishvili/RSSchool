@@ -9,13 +9,16 @@ const Home = () => {
   const [characters, setCharacters] = useState<CharacterCardData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError('');
       try {
-        const response = await fetch('https://rickandmortyapi.com/api/character?page=1');
+        const response = await fetch(
+          `https://rickandmortyapi.com/api/character/?name=${searchValue}&page=1`
+        );
         const data = await response.json();
         if (data.info) {
           setCharacters(data.results);
@@ -30,11 +33,11 @@ const Home = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [searchValue]);
 
   return (
     <div className="home">
-      <Search setCharacters={setCharacters} setLoading={setLoading} setError={setError} />
+      <Search setSearchValue={setSearchValue} />
       {loading ? <Loading /> : error ? <p>{error}</p> : <CharacterCards characters={characters} />}
     </div>
   );
