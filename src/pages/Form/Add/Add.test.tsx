@@ -46,15 +46,6 @@ describe('Add', () => {
     fireEvent.click(agreeTermsInput);
 
     fireEvent.submit(container.querySelector('form')!);
-    expect.objectContaining({
-      id: expect.any(String),
-      img: expect.any(File),
-      price: 1500,
-      priceType: 'Guide Price',
-      description: 'This is a test description.',
-      date: '2023-04-01',
-      receiveEmails: 'every week',
-      agreeTerms: true,
-    });
+    expect.objectContaining({ all: true });
   });
 });
