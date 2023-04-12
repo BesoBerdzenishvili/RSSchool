@@ -8,22 +8,6 @@ afterEach(() => {
 
 describe('CharacterModal component', () => {
   const mockSetShowModal = vitest.fn();
-  const mockData = {
-    id: 1,
-    name: 'Rick Sanchez',
-    status: 'Alive',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-    origin: {
-      name: 'Earth (C-137)',
-    },
-    location: {
-      name: 'Earth (Replacement Dimension)',
-    },
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-    episode: ['https://rickandmortyapi.com/api/episode/1'],
-  };
 
   afterEach(() => {
     vitest.restoreAllMocks();
