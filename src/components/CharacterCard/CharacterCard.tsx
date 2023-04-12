@@ -9,7 +9,7 @@ interface CharacterCardProps {
 
 const CharacterCard: React.FC<CharacterCardProps> = ({ info }) => {
   const [showModal, setShowModal] = useState(false);
-  const { image, name, status } = info;
+  const { id, image, name, status } = info;
 
   const handleClick = () => {
     setShowModal(true);
@@ -29,7 +29,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ info }) => {
           </span>
         </p>
       </div>
-      {showModal && <CharacterModal info={info} setShowModal={setShowModal} />}
+      {showModal && <CharacterModal id={id} setShowModal={setShowModal} />}
     </>
   );
 };
