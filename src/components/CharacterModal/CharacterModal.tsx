@@ -38,7 +38,7 @@ const CharacterModal: React.FC<ModalProps> = ({ id, setShowModal }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={handleClick}>
+    <div className="modal-overlay" onClick={handleClick} data-testid={'unique-test-name'}>
       {loading ? (
         <Loading />
       ) : error ? (
