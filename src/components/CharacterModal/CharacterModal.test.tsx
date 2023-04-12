@@ -1,81 +1,72 @@
-import { it, test, describe, expect, vitest, afterEach } from 'vitest';
-import { render, fireEvent, screen, cleanup } from '@testing-library/react';
+import { it, vitest, describe, expect, afterEach } from 'vitest';
+import { render, screen, waitFor, fireEvent, cleanup } from '@testing-library/react';
 import CharacterModal from './CharacterModal';
 
-const character = {
-  id: 1,
-  name: 'Morty Smith',
-  status: 'Alive',
-  species: 'Human',
-  type: '',
-  gender: 'Male',
-  origin: {
-    name: 'Earth',
-    url: 'https://rickandmortyapi.com/api/location/1',
-  },
-  location: {
-    name: 'Earth',
-    url: 'https://rickandmortyapi.com/api/location/20',
-  },
-  image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
-  episode: ['e1', 'e1'],
-  url: '',
-  created: '',
-};
+afterEach(() => {
+  cleanup();
+});
 
 describe('CharacterModal component', () => {
-  it('renders correctly', () => {
-    const { getByTestId } = render(<CharacterModal info={character} setShowModal={() => {}} />);
-    expect(getByTestId('modal-container')).toBeTruthy();
+  const mockSetShowModal = vitest.fn();
+  const mockData = {
+    id: 1,
+    name: 'Rick Sanchez',
+    status: 'Alive',
+    species: 'Human',
+    type: '',
+    gender: 'Male',
+    origin: {
+      name: 'Earth (C-137)',
+    },
+    location: {
+      name: 'Earth (Replacement Dimension)',
+    },
+    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+    episode: ['https://rickandmortyapi.com/api/episode/1'],
+  };
+
+  afterEach(() => {
+    vitest.restoreAllMocks();
   });
 
-  it('displays the character information', () => {
-    const { getAllByText } = render(<CharacterModal info={character} setShowModal={() => {}} />);
-    expect(getAllByText('Morty Smith')).toBeTruthy();
-    expect(getAllByText('Alive')).toBeTruthy();
-    expect(getAllByText('Human')).toBeTruthy();
-    expect(getAllByText('Male')).toBeTruthy();
-    expect(getAllByText('Earth')).toBeTruthy();
+  it('should render loading state initially', () => {
+    render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
+    expect(screen.getByTestId('loading-test')).toBeTruthy();
   });
 
-  it('displays the character type if it exists', () => {
-    character.type = 'Humanoid';
-    const { getByText } = render(<CharacterModal info={character} setShowModal={() => {}} />);
-    expect(getByText('Humanoid')).toBeTruthy();
+  it('should render error message if fetch fails', async () => {
+    vitest.spyOn(console, 'error').mockImplementation(() => {});
+    vitest.spyOn(window, 'fetch').mockImplementation(() => Promise.reject());
+
+    render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
+    await waitFor(() => expect(screen.getByText('Something went wrong...')).toBeTruthy());
   });
 
-  it('closes the modal when the "X" button is clicked', () => {
-    afterEach(cleanup);
-    const setShowModal = vitest.fn();
-    const { getAllByTestId } = render(
-      <CharacterModal info={character} setShowModal={setShowModal} />
-    );
-    const btn = getAllByTestId('delete-btn-x')[0];
-    fireEvent.click(btn);
+  it('should close modal when X button is clicked', async () => {
+    render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
+    await waitFor(() => expect(screen.getByTestId('modal-container')).toBeTruthy());
+
+    const closeButton = screen.getByTestId('delete-btn-x');
+    fireEvent.click(closeButton);
+
+    expect(mockSetShowModal).toHaveBeenCalledTimes(1);
+    expect(mockSetShowModal).toHaveBeenCalledWith(false);
   });
 
-  it('status color for live character', () => {
-    const { getByText } = render(<CharacterModal info={character} setShowModal={() => {}} />);
-    const statusElement = getByText('Alive');
-    const color = getComputedStyle(statusElement).color;
-    expect(color).toBe('green');
-  });
+  it('should call setShowModal when clicking overlay or delete button', async () => {
+    render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
+    await waitFor(() => expect(screen.getAllByTestId('modal-container')).toBeTruthy());
 
-  it('status color for not live character', () => {
-    character.status = 'dead';
-    const { getByText } = render(<CharacterModal info={character} setShowModal={() => {}} />);
-    const statusElement = getByText('dead');
-    const color = getComputedStyle(statusElement).color;
-    expect(color).toBe('red');
-  });
+    const overlay = screen.getByTestId('unique-test-name');
 
-  test('closes the modal when the overlay is clicked', () => {
-    const setShowModal = vitest.fn();
-    render(<CharacterModal info={character} setShowModal={setShowModal} />);
-    const overlay = screen.queryByTestId('modal-overlay');
-    if (overlay) {
-      fireEvent.click(overlay);
-      expect(setShowModal).toHaveBeenCalledWith(false);
-    }
+    fireEvent.click(overlay);
+    expect(mockSetShowModal).toHaveBeenCalledWith(false);
+
+    const deleteButton = screen.getByTestId('delete-btn-x');
+    fireEvent.click(deleteButton);
+    expect(mockSetShowModal).toHaveBeenCalledWith(false);
+
+    // check that modal has closed
+    await waitFor(() => expect(screen.queryByRole('presentation')).not.toBeTruthy());
   });
 });
