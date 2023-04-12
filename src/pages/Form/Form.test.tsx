@@ -4,7 +4,6 @@ import Form from './Form';
 
 vi.mock('./Add/Add', () => ({ default: () => <div>Add</div> }));
 vi.mock('../../components/Cards/Cards', () => ({ Cards: () => <div>Cards</div> }));
-
 describe('Form', () => {
   it('renders Add and Cards components', () => {
     render(<Form />);

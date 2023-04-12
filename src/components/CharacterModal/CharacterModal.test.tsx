@@ -50,7 +50,6 @@ describe('CharacterModal component', () => {
     fireEvent.click(deleteButton);
     expect(mockSetShowModal).toHaveBeenCalledWith(false);
 
-    // check that modal has closed
     await waitFor(() => expect(screen.queryByRole('presentation')).not.toBeTruthy());
   });
 });
