@@ -1,0 +1,46 @@
+.add-form {
+  margin-top: 24px;
+  text-align: center;
+  border: 1px solid darkgrey;
+  padding: 16px;
+  min-width: 204px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-image {
+  display: none;
+}
+
+.upload-image-label {
+  padding: 8px 12px;
+  background-color: #163bd3;
+  color: #fff;
+  cursor: pointer;
+  max-width: 288px;
+}
+
+.upload-image-label:active {
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
+.error {
+  color: red;
+  font-style: italic;
+  margin: 4px 0;
+}
+
+.add-form label {
+  display: block;
+}
+
+input,
+select {
+  margin-bottom: 14px;
+}
+
+label {
+  margin-bottom: 4px;
+}
