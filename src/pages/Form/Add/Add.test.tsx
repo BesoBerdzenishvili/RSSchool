@@ -1,15 +1,16 @@
-import { test, describe, expect } from 'vitest';
-import { render, fireEvent, screen } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { FormDataProvider } from '../../../contexts/formDataContext';
+import { Provider } from 'react-redux';
+import { store } from '../../../redux/store';
+import { test, vitest, describe, expect, afterEach } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Add from './Add';
+import { addCard } from '../../../redux/formApi';
 
-describe('Add', () => {
-  test('renders form fields', () => {
+describe('Add component', () => {
+  test('renders form elements correctly', () => {
     render(
-      <Router>
+      <Provider store={store}>
         <Add />
-      </Router>
+      </Provider>
     );
     expect(screen.getByLabelText('Image:')).toBeTruthy();
     expect(screen.getByLabelText('Price:')).toBeTruthy();
@@ -18,34 +19,56 @@ describe('Add', () => {
     expect(screen.getByLabelText('Date:')).toBeTruthy();
     expect(screen.getByLabelText('Recieve Emails:')).toBeTruthy();
     expect(screen.getByLabelText('I agree to terms of service')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Submit' })).toBeTruthy();
+    expect(screen.getByRole('button')).toBeTruthy();
   });
 
-  test('form submission with required fields', async () => {
-    const { container } = render(
-      <Router>
-        <FormDataProvider>
-          <Add />
-        </FormDataProvider>
-      </Router>
+  test('validates required fields on submit', async () => {
+    render(
+      <Provider store={store}>
+        <Add />
+      </Provider>
     );
-    const imageInput = screen.getByLabelText('Image:');
-    const priceInput = screen.getByLabelText('Price:');
-    const priceTypeInput = screen.getByLabelText('Price Type:');
-    const descriptionInput = screen.getByLabelText('Description:');
-    const dateInput = screen.getByLabelText('Date:');
-    const receiveEmailsInput = screen.getByLabelText('Recieve Emails:');
-    const agreeTermsInput = screen.getByLabelText('I agree to terms of service');
 
-    fireEvent.change(imageInput, { target: { files: [new File([], 'image.png')] } });
-    fireEvent.change(priceInput, { target: { value: '1500' } });
-    fireEvent.click(priceTypeInput);
-    fireEvent.change(descriptionInput, { target: { value: 'This is a test description.' } });
-    fireEvent.change(dateInput, { target: { value: '2023-04-01' } });
-    fireEvent.change(receiveEmailsInput, { target: { value: 'every week' } });
-    fireEvent.click(agreeTermsInput);
+    const submitButton = screen.getByRole('button', { name: /submit/i });
+    fireEvent.click(submitButton);
 
-    fireEvent.submit(container.querySelector('form')!);
-    expect.objectContaining({ all: true });
+    const errorMessages = [
+      'Image is required',
+      'Price must be greater than or equal to 1000',
+      'Price Type is required',
+      'Description must be at least 10 characters long',
+      'Date is required',
+      'Recieve Emails is required',
+    ];
+
+    for (const message of errorMessages) {
+      expect(await screen.findByText(message)).toBeTruthy();
+    }
+  });
+
+  test('validates minimum price on submit', async () => {
+    render(
+      <Provider store={store}>
+        <Add />
+      </Provider>
+    );
+    fireEvent.change(screen.getByLabelText('Price:'), { target: { value: '999' } });
+    fireEvent.click(screen.getByRole('button'));
+
+    const error = await screen.findByText('Price must be greater than or equal to 1000');
+    expect(error).toBeTruthy();
+  });
+
+  test('validates minimum description length on submit', async () => {
+    render(
+      <Provider store={store}>
+        <Add />
+      </Provider>
+    );
+    fireEvent.change(screen.getByLabelText('Description:'), { target: { value: 'a' } });
+    fireEvent.click(screen.getByRole('button'));
+
+    const error = await screen.findByText('Description must be at least 10 characters long');
+    expect(error).toBeTruthy();
   });
 });

@@ -31,7 +31,7 @@ const Add = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="add-form">
+    <form onSubmit={handleSubmit(onSubmit)} className="add-form" data-testid="add-test">
       <label htmlFor="img">Image:</label>
       <input
         id="img"
