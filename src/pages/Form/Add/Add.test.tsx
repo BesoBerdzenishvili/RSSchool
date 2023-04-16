@@ -1,9 +1,8 @@
 import { Provider } from 'react-redux';
 import { store } from '../../../redux/store';
-import { test, vitest, describe, expect, afterEach } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { test, describe, expect } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Add from './Add';
-import { addCard } from '../../../redux/formApi';
 
 describe('Add component', () => {
   test('renders form elements correctly', () => {
