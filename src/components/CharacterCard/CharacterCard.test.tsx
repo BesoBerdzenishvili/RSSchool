@@ -1,5 +1,7 @@
-import { render, fireEvent } from '@testing-library/react';
 import { it, test, describe, expect } from 'vitest';
+import { render, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from '../../redux/store';
 import CharacterCard from './CharacterCard';
 import { CharacterCardData } from '../../types/DataTypes';
 
@@ -34,8 +36,18 @@ describe('CharacterCard', () => {
     expect(color).toBe('red');
   });
 
+  // test('should show modal when clicked', () => {
+  //   const { getAllByTestId } = render(<CharacterCard info={character} />);
+  //   const btn = getAllByTestId('character-card')[0];
+  //   fireEvent.click(btn);
+  // });
+
   test('should show modal when clicked', () => {
-    const { getAllByTestId } = render(<CharacterCard info={character} />);
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <CharacterCard info={character} />
+      </Provider>
+    );
     const btn = getAllByTestId('character-card')[0];
     fireEvent.click(btn);
   });
