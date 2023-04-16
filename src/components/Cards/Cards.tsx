@@ -1,14 +1,14 @@
-import { useContext } from 'react';
-import { FormDataContext } from '../../contexts/formDataContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import Card from '../Card/Card';
 import './Cards.css';
 
 export const Cards = () => {
-  const { formData } = useContext(FormDataContext);
+  const cards = useSelector((state: RootState) => state.form);
 
   return (
     <div className="cards">
-      {formData.length > 0 && formData.map((i) => <Card key={i.id} data={i} />)}
+      {cards.length > 0 && cards.map((card) => <Card key={card.id} data={card} />)}
     </div>
   );
 };

@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { addCard } from '../../../redux/formApi';
 import { FormData } from '../../../types/DataTypes';
-import { FormDataContext } from '../../../contexts/formDataContext';
 import './Add.css';
 
 const Add = () => {
+  const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
   const {
     register,
@@ -13,7 +15,6 @@ const Add = () => {
     reset,
     formState: { errors },
   } = useForm<FormData>();
-  const { formData, setFormData } = useContext(FormDataContext);
   const watchedImg = watch('img') as File[] | undefined;
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const Add = () => {
   const onSubmit = (data: FormData) => {
     setTimeout(() => reset(), 1500);
     data.id = Math.random().toString(36).substr(2, 9);
-    setFormData([...formData, data]);
+    dispatch(addCard(data));
     alert('Success!');
   };
 
