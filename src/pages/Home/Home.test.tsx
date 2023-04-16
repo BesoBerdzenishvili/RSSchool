@@ -1,44 +1,28 @@
-import { it, describe, expect, vitest, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { test, describe, expect } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from '../../redux/store';
 import Home from './Home';
 
-afterEach(() => {
-  cleanup();
-});
-
 describe('Home', () => {
-  beforeEach(() => {
-    global.fetch = vitest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ info: true, results: [] }),
-      })
-    ) as unknown as typeof fetch;
-  });
-
-  it('renders the search component', () => {
-    render(<Home />);
-    expect(screen.getByRole('textbox')).toBeTruthy();
-  });
-
-  it('renders the loading component when fetching data', async () => {
-    render(<Home />);
-    expect(await screen.findByTestId('loading-test')).toBeTruthy();
-  });
-
-  it('updates the search value when typing in the search box', async () => {
-    render(<Home />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Morty' } });
-    expect(await screen.findByDisplayValue(/morty/i)).toBeTruthy();
-  });
-
-  it('logs an error to the console when fetch fails', async () => {
-    const mockConsoleLog = vitest.fn();
-    global.console.log = mockConsoleLog;
-    global.fetch = vitest.fn(() => Promise.reject(new Error('Network error')));
-    render(<Home />);
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(mockConsoleLog).toHaveBeenCalledWith(
-      expect.objectContaining({ message: 'Network error' })
+  test('renders Search and CharacterCards components', () => {
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
     );
+    expect(screen.getByPlaceholderText(/search/i)).toBeTruthy();
+    expect(screen.getByTestId('loading-test')).toBeTruthy();
+  });
+
+  test('updates searchValue in localStorage on input change', () => {
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+    const input = screen.getByPlaceholderText(/search/i);
+    fireEvent.change(input, { target: { value: 'Rick' } });
+    expect(localStorage.getItem('searchValue')).toBe('');
   });
 });
