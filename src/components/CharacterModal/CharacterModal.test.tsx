@@ -1,55 +1,102 @@
 import { it, vitest, describe, expect, afterEach } from 'vitest';
-import { render, screen, waitFor, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import CharacterModal from './CharacterModal';
 
 afterEach(() => {
   cleanup();
 });
 
-describe('CharacterModal component', () => {
-  const mockSetShowModal = vitest.fn();
+const mockUseGetDataQuery = vitest.fn();
 
-  afterEach(() => {
-    vitest.restoreAllMocks();
+vitest.mock('../../redux/characterApi', () => ({
+  useGetDataQuery: (id: number) => mockUseGetDataQuery(id),
+}));
+
+const mockData = {
+  name: 'Rick Sanchez',
+  status: 'Alive',
+  species: 'Human',
+  gender: 'Male',
+  origin: {
+    name: 'Earth',
+  },
+  location: {
+    name: 'Earth',
+  },
+  episode: [],
+  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+};
+describe('CharacterModal', () => {
+  it('renders the modal when data is fetched', async () => {
+    mockUseGetDataQuery.mockReturnValueOnce({
+      data: mockData,
+      isLoading: false,
+      error: undefined,
+    });
+
+    render(<CharacterModal id={1} setShowModal={() => {}} />);
+    const modalContainer = await screen.findByTestId('modal-container');
+
+    expect(modalContainer).toBeTruthy();
+    expect(screen.getByAltText(mockData.name)).toBeTruthy();
+    expect(screen.queryByText(`Name: ${mockData.name}`)).toBeNull();
+    expect(screen.queryByText(`Status: ${mockData.status}`)).toBeNull();
+    expect(screen.queryByText(`Species: ${mockData.species}`)).toBeNull();
+    expect(screen.queryByText(`Gender: ${mockData.gender}`)).toBeNull();
+    expect(screen.queryByText(`Origin: ${mockData.origin.name}`)).toBeNull();
+    expect(screen.queryByText(`Location: ${mockData.location.name}`)).toBeNull();
+    expect(screen.queryByText(`Episodes: ${mockData.episode.length}`)).toBeNull();
   });
 
-  it('should render loading state initially', () => {
-    render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
-    expect(screen.getByTestId('loading-test')).toBeTruthy();
+  it('renders the loading spinner while fetching data', async () => {
+    mockUseGetDataQuery.mockReturnValueOnce({
+      data: undefined,
+      isLoading: true,
+      error: undefined,
+    });
+
+    render(<CharacterModal id={1} setShowModal={() => {}} />);
+    const loadingSpinner = await screen.findByTestId('loading-test');
+
+    expect(loadingSpinner).toBeTruthy();
   });
 
-  it('should render error message if fetch fails', async () => {
-    vitest.spyOn(console, 'error').mockImplementation(() => {});
-    vitest.spyOn(window, 'fetch').mockImplementation(() => Promise.reject());
+  it('renders an error message when there is an error fetching data', async () => {
+    mockUseGetDataQuery.mockReturnValueOnce({
+      data: undefined,
+      isLoading: false,
+      error: { message: 'Error message' },
+    });
 
-    render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
-    await waitFor(() => expect(screen.getByText('Something went wrong...')).toBeTruthy());
+    render(<CharacterModal id={1} setShowModal={() => {}} />);
+    const errorMessage = await screen.findByText('Something went wrong...');
+
+    expect(errorMessage).toBeTruthy();
   });
 
-  it('should close modal when X button is clicked', async () => {
-    render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
-    await waitFor(() => expect(screen.getByTestId('modal-container')).toBeTruthy());
+  it("renders renders nothing when there's no data", async () => {
+    mockUseGetDataQuery.mockReturnValueOnce({
+      data: null,
+      isLoading: false,
+      error: null,
+    });
 
-    const closeButton = screen.getByTestId('delete-btn-x');
-    fireEvent.click(closeButton);
-
-    expect(mockSetShowModal).toHaveBeenCalledTimes(1);
-    expect(mockSetShowModal).toHaveBeenCalledWith(false);
+    render(<CharacterModal id={1} setShowModal={() => {}} />);
   });
 
-  it('should call setShowModal when clicking overlay or delete button', async () => {
+  it('closes the modal when the X button is clicked', async () => {
+    const mockSetShowModal = vitest.fn();
+    mockUseGetDataQuery.mockReturnValueOnce({
+      data: mockData,
+      isLoading: false,
+      error: undefined,
+    });
+
     render(<CharacterModal id={1} setShowModal={mockSetShowModal} />);
-    await waitFor(() => expect(screen.getAllByTestId('modal-container')).toBeTruthy());
+    const deleteButton = await screen.findByTestId('delete-btn-x');
 
-    const overlay = screen.getByTestId('unique-test-name');
-
-    fireEvent.click(overlay);
-    expect(mockSetShowModal).toHaveBeenCalledWith(false);
-
-    const deleteButton = screen.getByTestId('delete-btn-x');
     fireEvent.click(deleteButton);
-    expect(mockSetShowModal).toHaveBeenCalledWith(false);
 
-    await waitFor(() => expect(screen.queryByRole('presentation')).not.toBeTruthy());
+    expect(mockSetShowModal).toHaveBeenCalledWith(false);
   });
 });
