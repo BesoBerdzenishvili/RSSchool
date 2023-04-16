@@ -7,7 +7,7 @@ export const Cards = () => {
   const cards = useSelector((state: RootState) => state.form);
 
   return (
-    <div className="cards">
+    <div className="cards" data-testid="cards">
       {cards.length > 0 && cards.map((card) => <Card key={card.id} data={card} />)}
     </div>
   );
