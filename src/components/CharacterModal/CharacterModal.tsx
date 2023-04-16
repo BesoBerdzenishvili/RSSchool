@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { CharacterCardData } from '../../types/DataTypes';
+import React from 'react';
+import { useGetDataQuery } from '../../redux/characterApi';
 import Loading from '../Loading/Loading';
 import './CharacterModal.css';
 
@@ -9,27 +9,7 @@ interface ModalProps {
 }
 
 const CharacterModal: React.FC<ModalProps> = ({ id, setShowModal }) => {
-  const [data, setData] = useState<CharacterCardData>();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
-        const data = await response.json();
-        setData(data);
-      } catch (error) {
-        console.log(error);
-        setError('Something went wrong...');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [id]);
+  const { data, isLoading, error } = useGetDataQuery(id);
 
   const handleClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -39,10 +19,10 @@ const CharacterModal: React.FC<ModalProps> = ({ id, setShowModal }) => {
 
   return (
     <div className="modal-overlay" onClick={handleClick} data-testid={'unique-test-name'}>
-      {loading ? (
+      {isLoading ? (
         <Loading />
       ) : error ? (
-        <p>{error}</p>
+        <p>Something went wrong...</p>
       ) : data ? (
         <div className="modal-container" data-testid="modal-container">
           <button data-testid="delete-btn-x" className="delete-btn" onClick={handleClick}>
