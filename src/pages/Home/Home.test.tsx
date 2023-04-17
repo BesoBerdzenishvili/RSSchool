@@ -23,6 +23,6 @@ describe('Home', () => {
     );
     const input = screen.getByPlaceholderText(/search/i);
     fireEvent.change(input, { target: { value: 'Rick' } });
-    expect(localStorage.getItem('searchValue')).toBe('');
+    expect(localStorage.getItem('searchValue')).toBe(null);
   });
 });

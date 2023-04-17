@@ -1,5 +1,7 @@
 import { it, describe, expect, vitest, afterEach } from 'vitest';
 import { render, fireEvent, cleanup } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from '../../redux/store';
 import Search from './Search';
 
 afterEach(() => {
@@ -9,7 +11,11 @@ afterEach(() => {
 describe('Search', () => {
   const setSearchValue = vitest.fn();
   const setup = () => {
-    const { getByRole } = render(<Search setSearchValue={setSearchValue} />);
+    const { getByRole } = render(
+      <Provider store={store}>
+        <Search setSearchValue={setSearchValue} />
+      </Provider>
+    );
     const input = getByRole('textbox') as HTMLInputElement;
     return {
       input,
@@ -30,14 +36,6 @@ describe('Search', () => {
   it('calls setSearchValue on enter key press', () => {
     const { input } = setup();
     fireEvent.keyDown(input, { key: 'Enter' });
-    expect(setSearchValue).toHaveBeenCalledWith(input.value);
-  });
-
-  it('saves the input value to local storage on beforeunload', () => {
-    const setItemSpy = vitest.spyOn(Storage.prototype, 'setItem');
-    setup();
-    fireEvent(window, new Event('beforeunload'));
-    expect(setItemSpy).toHaveBeenCalledWith('inputValue', 'test');
-    setItemSpy.mockRestore();
+    expect(setSearchValue).toHaveBeenCalledWith('test');
   });
 });

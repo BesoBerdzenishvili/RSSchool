@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import { useGetSearchQuery } from '../../redux/characterApi';
 import CharacterCards from '../../components/CharacterCards/CharacterCards';
 import Search from '../../components/Search/Search';
@@ -6,27 +8,9 @@ import Loading from '../../components/Loading/Loading';
 import './Home.css';
 
 const Home = () => {
-  const [searchValue, setSearchValue] = useState(() => {
-    const saved = localStorage.getItem('searchValue');
-    return saved ? saved : '';
-  });
+  const searchText = useSelector((state: RootState) => state.search);
+  const [searchValue, setSearchValue] = useState(searchText);
   const { data, isLoading, error } = useGetSearchQuery(searchValue);
-
-  useEffect(() => {
-    localStorage.setItem('searchValue', searchValue);
-  }, [searchValue]);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.setItem('searchValue', searchValue);
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [searchValue]);
 
   return (
     <div className="home">

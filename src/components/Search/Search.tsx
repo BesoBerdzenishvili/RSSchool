@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setSearchText } from '../../redux/searchSlice';
 import './Search.css';
 
 type PropsTypes = {
@@ -6,34 +9,18 @@ type PropsTypes = {
 };
 
 const Search: React.FC<PropsTypes> = ({ setSearchValue }) => {
-  const [inputValue, setInputValue] = useState(() => {
-    const saved = localStorage.getItem('inputValue');
-    return saved ? saved : '';
-  });
-
-  useEffect(() => {
-    localStorage.setItem('inputValue', inputValue);
-  }, [inputValue]);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.setItem('inputValue', inputValue);
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [inputValue]);
+  const searchValue = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+    dispatch(setSearchText(event.target.value));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      setSearchValue(inputValue);
+      setSearchValue(searchValue);
     }
   };
 
