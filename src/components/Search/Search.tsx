@@ -11,7 +11,7 @@ type PropsTypes = {
 const Search: React.FC<PropsTypes> = ({ setSearchValue }) => {
   const searchValue = useSelector((state: RootState) => state.search);
   const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(searchValue);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
