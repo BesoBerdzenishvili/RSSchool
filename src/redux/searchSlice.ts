@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: string = '';
+const initialState = '';
 
 export const searchSlice = createSlice({
   name: 'seatch-text',
   initialState,
   reducers: {
-    setSearchText: (_state, action: PayloadAction<string>) => {
+    setSearchText: (state, action: PayloadAction<string>) => {
       return action.payload;
     },
   },
