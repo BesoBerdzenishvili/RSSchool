@@ -10,9 +10,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
 
   return (
     <div className="card">
-      {img && typeof URL !== 'undefined' && URL.createObjectURL && (
-        <img src={URL.createObjectURL(img[0])} alt="card image" width={300} />
-      )}
+      <img src={URL.createObjectURL(img[0])} alt="card image" width={300} />
       <div className="price">${price}</div>
       {<div className="guide-price">{priceType}</div>}
       <div className="description">{description && description}</div>

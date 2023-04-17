@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addCard } from '../../../redux/formApi';
@@ -7,27 +6,26 @@ import './Add.css';
 
 const Add = () => {
   const dispatch = useDispatch();
-  const [selectedFile, setSelectedFile] = useState<File | undefined>();
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm<FormData>();
-  const watchedImg = watch('img') as File[] | undefined;
-
-  useEffect(() => {
-    if (watchedImg && watchedImg.length > 0) {
-      setSelectedFile(watchedImg && watchedImg[0]);
-    }
-  }, [watchedImg]);
 
   const onSubmit = (data: FormData) => {
-    setTimeout(() => reset(), 1500);
     data.id = Math.random().toString(36).substr(2, 9);
     dispatch(addCard(data));
     alert('Success!');
+    reset({
+      id: '',
+      price: 0,
+      priceType: '',
+      agreeTerms: false,
+      description: '',
+      date: '',
+      recieveEmails: '',
+    });
   };
 
   return (
@@ -41,7 +39,7 @@ const Add = () => {
         {...register('img', { required: true })}
       />
       <label htmlFor="img" className="upload-image-label">
-        {selectedFile ? selectedFile.name : 'Choose File'}
+        Choose File
       </label>
       {errors.img && <p className="error">Image is required</p>}
       <label htmlFor="price">Price:</label>
