@@ -9,7 +9,6 @@ const data: FormData = {
   img: {
     0: file,
     length: 1,
-    item: (index: number) => file,
   } as unknown as FileList,
   price: 1001,
   priceType: 'Guide Price',
