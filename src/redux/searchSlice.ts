@@ -6,7 +6,7 @@ export const searchSlice = createSlice({
   name: 'seatch-text',
   initialState,
   reducers: {
-    setSearchText: (state, action: PayloadAction<string>) => {
+    setSearchText: (_state, action: PayloadAction<string>) => {
       return action.payload;
     },
   },
