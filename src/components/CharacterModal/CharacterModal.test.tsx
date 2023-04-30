@@ -16,6 +16,7 @@ const mockData = {
   name: 'Rick Sanchez',
   status: 'Alive',
   species: 'Human',
+  type: 'Alive',
   gender: 'Male',
   origin: {
     name: 'Earth',
@@ -46,6 +47,22 @@ describe('CharacterModal', () => {
     expect(screen.queryByText(`Origin: ${mockData.origin.name}`)).toBeNull();
     expect(screen.queryByText(`Location: ${mockData.location.name}`)).toBeNull();
     expect(screen.queryByText(`Episodes: ${mockData.episode.length}`)).toBeNull();
+  });
+
+  it("type isn't alive", async () => {
+    mockData.status = 'dead';
+    mockUseGetDataQuery.mockReturnValueOnce({
+      data: mockData,
+      isLoading: false,
+      error: undefined,
+    });
+
+    render(<CharacterModal id={1} setShowModal={() => {}} />);
+    const modalContainer = await screen.findByTestId('modal-container');
+
+    expect(modalContainer).toBeTruthy();
+    expect(screen.getByAltText(mockData.name)).toBeTruthy();
+    expect(screen.queryByText(`Status: ${mockData.status}`)).toBeNull();
   });
 
   it('renders the loading spinner while fetching data', async () => {
