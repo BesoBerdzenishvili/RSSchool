@@ -1,0 +1,11 @@
+.character-card {
+  border: 2.5px solid turquoise;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  text-align: center;
+  max-width: 300px;
+}
+.character-img {
+  border-radius: 14px 14px 0 0;
+}
