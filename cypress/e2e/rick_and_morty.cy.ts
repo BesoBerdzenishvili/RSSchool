@@ -78,4 +78,23 @@ describe('Add form', () => {
     cy.get('form').submit();
     cy.get('#agreeTerms').check().should('be.checked');
   });
+
+  it('should reset the form after submission', () => {
+    cy.get('input#img').selectFile('cypress/fixtures/my-image.png', { force: true });
+    cy.get('#price').type('2000');
+    cy.get('input[type="radio"][value="Exact Price"]').click();
+    cy.get('#description').type('description');
+    cy.get('#date').type('2022-01-01');
+    cy.get('#recieveEmails').select('every day');
+    cy.get('#agreeTerms').check();
+
+    cy.get('form').submit();
+
+    cy.get('#price').should('have.value', '0');
+    cy.get('#priceType').should('not.be.checked');
+    cy.get('#description').should('have.value', '');
+    cy.get('#date').should('have.value', '');
+    cy.get('#recieveEmails').should('have.value', '');
+    cy.get('#agreeTerms').should('not.be.checked');
+  });
 });
