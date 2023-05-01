@@ -1,8 +1,16 @@
 describe('test main page', () => {
-  it('Writes name in search', () => {
+  beforeEach(() => {
     cy.visit('/');
+  });
+
+  it('Writes name in search', () => {
     cy.get('.search-input').type('rick{enter}');
     cy.get('.search-input').should('have.value', 'rick');
+  });
+
+  it('displays error message when there is an error', () => {
+    cy.get('input').type('zelt');
+    cy.get('.home').should('contain', 'Something went wrong...');
   });
 });
 
